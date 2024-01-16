@@ -1,0 +1,40 @@
+number_of_vms=ENV['vms'].to_i
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/ubuntu2204"
+
+  config.vm.provider "libvirt" do |vb|
+    vb.default_prefix = ""
+    vb.memory = "2048"
+    vb.cpus = 2
+  end
+
+  # change network settings to fast boot
+  config.vm.provision "shell", run: "always", inline: "sed -i '/optional/d' /etc/netplan/01-netcfg.yaml"
+  config.vm.provision "shell", run: "always", inline: "netplan apply"
+
+  # Ensure nexus.local exist in /etc/hosts
+  config.vm.provision "shell", run: "always", inline: "echo '192.168.3.2 nexus.local' >> /etc/hosts"
+
+  # copy apt sources.list
+  config.vm.provision "file", source: "./.sources.list", destination: "sources.list"
+  config.vm.provision "shell", run: "always", inline: "mv sources.list /etc/apt/"
+
+  # clear apt cache
+  config.vm.provision "shell", run: "always", inline: "apt clean"
+  config.vm.provision "shell", run: "always", inline: "apt autoclean"
+  config.vm.provision "shell", run: "always", inline: "apt autoremove"
+  config.vm.provision "shell", run: "always", inline: "rm -rf /var/lib/apt/lists/* /var/cache/apt/*"
+
+  # apt update and upgrade
+  config.vm.provision "shell", run: "always", inline: "apt update"
+  config.vm.provision "shell", run: "always", inline: "apt full-upgrade -y"
+
+  # reboot
+  config.vm.provision "shell", run: "always", inline: "reboot"
+
+  (1..number_of_vms).each do |i|
+    config.vm.define "ubuntu-#{i}" do |node|
+    node.vm.hostname = "ubuntu-#{i}"
+    end
+  end
+end
