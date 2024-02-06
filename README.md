@@ -36,3 +36,9 @@ to add more virtual machines, repeat this format under `VMS` block:
     cpu: <number of cpus>
     ram: <memory in MB>
 ```
+
+### Generate hosts for ansible
+```bash
+bash ansible_inventory.sh
+```
+It will generate `hosts` file which can be used by ansible
