@@ -1,9 +1,9 @@
 require 'yaml'
-
+vagrant_default_provider=ENV['VAGRANT_DEFAULT_PROVIDER']
 vars = YAML.load_file("vars.yaml")
 
 Vagrant.configure(vars.fetch('vagrant_api_version')) do |config|
-  config.vm.provider vars.fetch('vagrant_provider') do |vb|
+  config.vm.provider vagrant_default_provider do |vb|
     vb.default_prefix = vars["vagrant_default_prefix"]
   end
 
@@ -12,7 +12,7 @@ Vagrant.configure(vars.fetch('vagrant_api_version')) do |config|
       config.vm.define "#{server["prefix"]}#{i}" do |node|
         node.vm.box = server["box"]
         node.vm.hostname = "#{server["prefix"]}#{i}"
-        node.vm.provider vars.fetch('vagrant_provider') do |vb|
+        node.vm.provider vagrant_default_provider do |vb|
           vb.cpus = server["cpu"]
           vb.memory = server["ram"]
         end
