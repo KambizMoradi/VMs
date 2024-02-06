@@ -15,6 +15,16 @@ For libvirt:
 export VAGRANT_DEFAULT_PROVIDER=libvirt
 ```
 
+Then run virtual machines:
+```bash
+vagrant up
+```
+
+To remove virtual machines:
+```bash
+vagrant destroy --force
+```
+
 ### Change Configs
 use `vars.yaml`
 
