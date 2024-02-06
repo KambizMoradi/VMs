@@ -1,8 +1,8 @@
 # base-vms
-This repository is a set of base config files which helps you to create multi virtual machines with costume configs as soon as possible.
+This repository contains basic configuration files that can assist you in swiftly creating multiple virtual machines with personalized settings.
 
-> [!note]
-> Please consider that this is just base configs and normally for test environmets you should change default configs.
+> [!warning]
+> Please keep in mind that these are only basic configurations, and for testing environments, it is advisable to modify the default settings.
 
 ## How to use
 Set vagrant default provider as a environmet variable:
