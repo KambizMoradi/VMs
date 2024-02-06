@@ -1,0 +1,22 @@
+---
+# global settings
+vagrant_api_version: 2
+vagrant_provider: "libvirt"
+vagrant_default_prefix: "k8s-"
+
+# define virtual machines
+VMS:
+  - name: "master"
+    count: 1
+    box: "generic/ubuntu2204"
+    prefix: "master-"
+    cpu: 2
+    ram: 2048
+
+  - name: "worker"
+    count: 2
+    box: "generic/ubuntu2204"
+    prefix: "worker-"
+    cpu: 1
+    ram: 1024
+...
